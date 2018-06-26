@@ -1,11 +1,7 @@
 //vars//
 
 var APIKey = "&api_key=bHqkMcxYFjGLDZN4kdne5mYiOLUHWDnH"
-var keyword = name
 var limit ="&limit=10"
-var url = "http:/" + "/api.giphy.com/v1/gifs/search?q=" + keyword + APIKey + limit
-console.log(url)
-
 
 //Initial array//
 
@@ -31,18 +27,31 @@ var gifArray = ["Fifa-bicycle-kick", "NHL-save", "NHL-hit", "NBA-block", "NBA-wi
 // add the button based on the array on the search //
     var searchGif = function(){
     $("#searchButton").on("click", function(event){
-    event.preventDefault()
-    var newGif = $("#gif-search").val().trim()
-    gifArray.push(newGif)
-    makeButtons()
-    })
-}
+        event.preventDefault()
+        var newGif = $("#gif-search").val().trim()
+        gifArray.push(newGif)
+        makeButtons()
+        gifCall()
+        })
+    }
 
-    function addGif(){
+    //test for clickability//
+    //var gifCreate = gifCall()
+   function gifCall(){
     $(".gifCreate").on("click", function(){
         alert("click")
+        var keyword = $(this).attr("data-name");
+        var queryURL = "http:/" + "/api.giphy.com/v1/gifs/search?q=" + keyword + APIKey + limit
+        
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function(response){
+            var results = response.data;
+            console.log(results)
+        })
     })
-}
+    }
 
 
 
@@ -55,4 +64,4 @@ var gifArray = ["Fifa-bicycle-kick", "NHL-save", "NHL-hit", "NBA-block", "NBA-wi
 
 makeButtons()
 searchGif()
-addGif()
+gifCall()
