@@ -3,4 +3,4 @@ This is a project deploying the use of Giphy's API to create a dynamically gener
 
 Click a button to load some gifs or search to _create a button on your own!_
 
-Powered by Giphy&amp
+Powered by Giphy©
