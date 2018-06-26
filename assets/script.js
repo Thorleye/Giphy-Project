@@ -2,11 +2,12 @@
 
 var APIKey = "&api_key=bHqkMcxYFjGLDZN4kdne5mYiOLUHWDnH"
 var limit ="&limit=10"
+var rating = "&rating=pg13"
 
 //Initial array//
 
-var gifArray = ["Fifa-bicycle-kick", "NHL-save", "NHL-hit", "NBA-block", "NBA-windmill", "NBA-half-court",
-"NFL-celebration", "NFL-sack", "NFL-touchdown", "NHL-breakaway"]
+var gifArray = ["NBA-block", "NBA-windmill", "NBA-tomahawk" ,"NBA-half-court",
+"NFL-celebration", "NFL-sack", "NFL-touchdown", "NHL-breakaway", "Fifa-bicycle-kick", "NHL-save", "NHL-hit", ]
 //creating the buttons based on the array//  
 
     var makeButtons = function(){
@@ -32,36 +33,49 @@ var gifArray = ["Fifa-bicycle-kick", "NHL-save", "NHL-hit", "NBA-block", "NBA-wi
         gifArray.push(newGif)
         makeButtons()
         gifCall()
+        $("#gif-search").val(empty())
         })
     }
 
-    //test for clickability//
-    //var gifCreate = gifCall()
+    //function to make ajax call//
    function gifCall(){
     $(".gifCreate").on("click", function(){
-        alert("click")
+        
         var keyword = $(this).attr("data-name");
-        var queryURL = "http:/" + "/api.giphy.com/v1/gifs/search?q=" + keyword + APIKey + limit
+        var queryURL = "http:/" + "/api.giphy.com/v1/gifs/search?q=" + keyword + APIKey + limit + rating
         
         $.ajax({
             url: queryURL,
             method: "GET"
         }).then(function(response){
+
+            //put results into divs to go into gif-area//
             var results = response.data;
             console.log(results)
+
+            for (var i=0; i < results.length; i++){
+                var gifDiv = $("<div class='item'>");
+                var rating = results[i].rating;
+
+                var p = $("<p>").text("Rating: " + rating);
+                var gifImage = $("<img>")
+                    // gifImage.attr("src", results[i].images.fixed_height_still.url)
+                gifImage.attr("src", results[i].images.fixed_height.url)
+                gifDiv.prepend(p);
+                gifDiv.prepend(gifImage);
+
+                $("#gif-display-area").prepend(gifDiv)
+            }
         })
     })
     }
 
 
 
-
-
-// the AJAX call //
-
-
-// giphy documentation to provide proper html request // 
-
-makeButtons()
-searchGif()
-gifCall()
+function startup(){
+    makeButtons()
+    searchGif()
+    gifCall()
+}
+startup()
+//need to add switch states for still images
