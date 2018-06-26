@@ -8,17 +8,17 @@ var rating = "&rating=g"
 
 var gifArray = ["NBA-block", "NBA-windmill", "NBA-tomahawk" ,"NBA-half-court",
 "NFL-celebration", "NFL-sack", "NFL-touchdown", "NHL-breakaway", "Fifa-bicycle-kick", "NHL-save", "NHL-hit", ]
-//creating the buttons based on the array//  
 
+//creating the buttons based on the array//  
 var makeButtons = function(){
           
     // Delete the content inside the movies-view div prior to adding new movies
     $("#gif-button-area").empty()
-  
+    //loop to make it work
     for (i=0; i < gifArray.length; i++){
     var gifButton = $("<button>")
     gifButton.text(gifArray[i]);
-    gifButton.addClass("btn btn-primary");
+    gifButton.addClass("btn btn-primary"); //bootstrap formatting//
     gifButton.addClass("gifCreate")
     gifButton.attr("data-name", gifArray[i]);
     $("#gif-button-area").append(gifButton);
@@ -77,7 +77,7 @@ function gifCall(){
                 
             }
 
-            //fun instructions to change from still to moving//
+            //fun instructions to change from still to moving and back again//
             $("img").on("click", function(){
                 var state = $(this).attr("data-state")
                 console.log(state)
@@ -90,7 +90,6 @@ function gifCall(){
                     $(this).attr("src", $(this).attr("data-still"))
                     $(this).attr("data-state", "static")
                 }
-            
             })
         })
     })
