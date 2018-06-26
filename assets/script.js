@@ -2,7 +2,7 @@
 
 var APIKey = "&api_key=bHqkMcxYFjGLDZN4kdne5mYiOLUHWDnH"
 var limit ="&limit=10"
-var rating = "&rating=pg13"
+var rating = "&rating=g"
 
 //Initial array//
 
@@ -10,7 +10,7 @@ var gifArray = ["NBA-block", "NBA-windmill", "NBA-tomahawk" ,"NBA-half-court",
 "NFL-celebration", "NFL-sack", "NFL-touchdown", "NHL-breakaway", "Fifa-bicycle-kick", "NHL-save", "NHL-hit", ]
 //creating the buttons based on the array//  
 
-    var makeButtons = function(){
+var makeButtons = function(){
           
     // Delete the content inside the movies-view div prior to adding new movies
     $("#gif-button-area").empty()
@@ -26,19 +26,19 @@ var gifArray = ["NBA-block", "NBA-windmill", "NBA-tomahawk" ,"NBA-half-court",
 }
 
 // add the button based on the array on the search //
-    var searchGif = function(){
+var searchGif = function(){
     $("#searchButton").on("click", function(event){
-        event.preventDefault()
-        var newGif = $("#gif-search").val().trim()
-        gifArray.push(newGif)
-        makeButtons()
-        gifCall()
-        $("#gif-search").val(empty())
-        })
-    }
+    event.preventDefault()
+    var newGif = $("#gif-search").val().trim()
+    gifArray.push(newGif)
+    makeButtons()
+    gifCall()
+    $("#gif-search").val("")
+    })
+}
 
     //function to make ajax call//
-   function gifCall(){
+function gifCall(){
     $(".gifCreate").on("click", function(){
         
         var keyword = $(this).attr("data-name");
@@ -59,23 +59,48 @@ var gifArray = ["NBA-block", "NBA-windmill", "NBA-tomahawk" ,"NBA-half-court",
 
                 var p = $("<p>").text("Rating: " + rating);
                 var gifImage = $("<img>")
-                    // gifImage.attr("src", results[i].images.fixed_height_still.url)
-                gifImage.attr("src", results[i].images.fixed_height.url)
+
+                //url for the static image//
+                gifImage.attr("src", results[i].images.fixed_height_still.url)
+
+                //setting data for still images
+                gifImage.attr("data-still", results[i].images.fixed_height_still.url)
+                gifImage.attr("data-state", "static")
+                
+                // url for the moving gif//
+                gifImage.attr("data-animate", results[i].images.fixed_height.url)
+                
                 gifDiv.prepend(p);
-                gifDiv.prepend(gifImage);
+                gifDiv.append(gifImage);
 
                 $("#gif-display-area").prepend(gifDiv)
+                
             }
+
+            //fun instructions to change from still to moving//
+            $("img").on("click", function(){
+                var state = $(this).attr("data-state")
+                console.log(state)
+
+                if (state ==="static"){
+                    $(this).attr("src", $(this).attr("data-animate"))
+                    $(this).attr("data-state", "animated")
+                }
+                if (state === "animated"){
+                    $(this).attr("src", $(this).attr("data-still"))
+                    $(this).attr("data-state", "static")
+                }
+            
+            })
         })
     })
-    }
-
-
+}
 
 function startup(){
     makeButtons()
     searchGif()
     gifCall()
+   
 }
 startup()
-//need to add switch states for still images
+
