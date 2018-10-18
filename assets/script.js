@@ -42,7 +42,7 @@ function gifCall(){
     $(".gifCreate").on("click", function(){
         
         var keyword = $(this).attr("data-name");
-        var queryURL = "http:/" + "/api.giphy.com/v1/gifs/search?q=" + keyword + APIKey + limit + rating
+        var queryURL = "https:/" + "/api.giphy.com/v1/gifs/search?q=" + keyword + APIKey + limit + rating
         
         $.ajax({
             url: queryURL,
